@@ -35,7 +35,7 @@ def init():
     top_left_x /= 100
     top_left_y /= 100
     tf_broadcaster = tf.TransformBroadcaster()
-    marker_publisher = rospy.Publisher('ar_helipad_pose', Marker, queue_size=1)
+    marker_publisher = rospy.Publisher('ar_helipad_marker', Marker, queue_size=1)
     rospy.Subscriber("tf", TFMessage, tf_callback)
     while not rospy.is_shutdown():
         rospy.spin()
