@@ -9,7 +9,6 @@ from ar_track_alvar_msgs.msg import AlvarMarkers
 
 width = 0.0
 height = 0.0
-diagonal = 0.0
 top_left_x = 0
 top_left_y = 0
 master_marker = '0'
@@ -18,7 +17,7 @@ marker_publisher = None
 
 def init():
     global marker_publisher, master_marker, tf_broadcaster
-    global width, height, diagonal, top_left_x, top_left_y
+    global width, height, top_left_x, top_left_y
     rospy.init_node('ar_helipad')
     xml = rospy.get_param("~xml_file", "bundles/helipad1.xml")
     xml_file = untangle.parse(xml)
@@ -29,15 +28,12 @@ def init():
     bottom_right_y = float(xml_file.multimarker.marker[1].corner[1]['y'])
     width = abs(bottom_right_x) + abs(top_left_x)
     height = abs(bottom_right_y) + abs(top_left_y)
-    diagonal = math.sqrt(width**2 + height**2)
     print 'The helipad has a width of ' + str(width) + 'cm.'
     print 'The helipad has a height of ' + str(height) + 'cm.'
-    print 'The helipad has a diagonal of ' + str(diagonal) + 'cm.'
     width /= 100
     height /= 100
     top_left_x /= 100
     top_left_y /= 100
-    diagonal /= 100
     tf_broadcaster = tf.TransformBroadcaster()
     marker_publisher = rospy.Publisher('ar_helipad_pose', Marker, queue_size=1)
     rospy.Subscriber("tf", TFMessage, tf_callback)
@@ -46,7 +42,7 @@ def init():
 
 def tf_callback(tf2):
     global master_marker, tf_broadcaster
-    global diagonal, width, height
+    global width, height
     for tf in tf2.transforms:
         if tf.child_frame_id == 'ar_marker_' + master_marker:
             tf_broadcaster.sendTransform(
