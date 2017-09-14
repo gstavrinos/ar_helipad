@@ -76,8 +76,12 @@ def tf_callback(tf2):
             marker.pose.orientation.y = 0
             marker.pose.orientation.z = 0
             marker.pose.orientation.w = 1.0
+            # TODO change duration here?
             marker.lifetime = rospy.Duration(1);
             marker_publisher.publish(marker)
+        else:
+            # TODO publish last seen tf, just to keep its tf alive?
+            pass
 
 if __name__ == '__main__':
     init() 
