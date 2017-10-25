@@ -9,7 +9,7 @@
     <arg name="output_frame" default="/camera_base_link" />
     <arg name="bundle_files" default="$(find ar_helipad)/bundles/helipad1.xml"/>
 
-    <node name="ar_track_alvar" pkg="ar_track_alvar" type="findMarkerBundlesNoKinect" respawn="false" output="screen" args="$(arg marker_size) $(arg max_new_marker_error) $(arg max_track_error) $(arg cam_image_topic) $(arg cam_info_topic) $(arg output_frame) $(arg bundle_files)" />
+    <node name="ar_track_alvar" pkg="ar_track_alvar" type="findMarkerBundlesNoKinect" respawn="false" output="screen" args="$(arg marker_size) $(arg max_new_marker_error) $(arg max_track_error) $(arg cam_image_topic) $(arg cam_info_topic) $(arg output_frame) $(arg bundle_files) _image_transport:=compressed"/>
 
     <node name="ar_helipad" pkg="ar_helipad" type="ar_helipad.py" respawn="false" output="screen">
         <param name="xml_file" value="$(arg bundle_files)"/>
