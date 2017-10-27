@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+
+<launch>
+    <arg name="marker_size" default="14.8" />
+    <arg name="max_new_marker_error" default="0.08" />
+    <arg name="max_track_error" default="0.2" />
+    <arg name="cam_image_topic" default="/bebop/image_raw" />
+    <arg name="cam_info_topic" default="/bebop/camera_info" />
+    <arg name="output_frame" default="/camera_base_link" />
+    <arg name="bundle_files" default="$(find ar_helipad)/bundles/helipad1.xml"/>
+
+    <node name="ar_track_alvar" pkg="ar_track_alvar" type="findMarkerBundlesNoKinect" respawn="false" output="screen" args="$(arg marker_size) $(arg max_new_marker_error) $(arg max_track_error) $(arg cam_image_topic) $(arg cam_info_topic) $(arg output_frame) $(arg bundle_files) _image_transport:=compressed"/>
+
+    <node name="ar_helipad" pkg="ar_helipad" type="ar_helipad.py" respawn="false" output="screen">
+        <param name="xml_file" value="$(arg bundle_files)"/>
+    </node>
+</launch>
